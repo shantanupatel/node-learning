@@ -3,8 +3,6 @@
  * the verification process may break
  * ***************************************************/
 
-'use strict';
-
 var bGround = require('fcc-express-bground');
 var myApp = require('./myApp');
 var express = require('express');
@@ -22,15 +20,6 @@ if (!process.env.DISABLE_XORIGIN) {
     next();
   });
 }
-
-app.route('/')
-    .get(function(req, res) {
-      // let absolutePath = __dirname;
-
-		  // res.sendFile(process.cwd() + '/views/index.html');
-		  // res.sendFile(absolutePath + '/views/index.html');
-      res.send("Response String");
-    })
 
 var port = process.env.PORT || 3000;
 bGround.setupBackgroundApp(app, myApp, __dirname).listen(port, function(){
