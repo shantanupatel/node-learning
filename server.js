@@ -26,6 +26,11 @@ if (!process.env.DISABLE_XORIGIN) {
 // express.static is a middleware function
 app.use('/public', express.static(__dirname + '/public'));
 
+app.use('', function(req, res, next){
+  console.log(req.method + ' ' + req.path + ' - ' + req.ip);
+  next();
+})
+
 app.get('/', function(req, res) {
   let absolutePath = __dirname + '/views/index.html';
   // res.send("Hello Express");
@@ -33,12 +38,23 @@ app.get('/', function(req, res) {
 });
 
 app.get('/json', function(req, res) {
-  if(process.env.MESSAGE_STYLE == 'uppercase') {
-    res.json({"message": "HELLO JSON"});
-  } else {
-    res.json({"message": "Hello json"});
-  }
+  res.json({"message" : "Hello json"});
 });
+
+/* app.get('/json', function(req, res) {
+  if(process.env.MESSAGE_STYLE == 'uppercase') {
+    res.json({"message" : "HELLO JSON"});
+  } else {
+    res.json({"message" : "Hello json"});
+  }
+}); */
+
+app.get('/now', function(req, res, next) {
+  req.time = new Date().toString();
+  next();
+}, function(req, res) {
+  res.json({time: req.time})
+})
 
 var port = process.env.PORT || 3000;
 bGround.setupBackgroundApp(app, myApp, __dirname).listen(port, function(){
