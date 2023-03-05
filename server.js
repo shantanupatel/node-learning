@@ -22,7 +22,9 @@ if (!process.env.DISABLE_XORIGIN) {
 }
 
 app.get('/', function(req, res) {
-  res.send("Hello Express");
+  let absolutePath = __dirname + '/views/index.html';
+  // res.send("Hello Express");
+  res.sendFile(absolutePath);
 })
 
 var port = process.env.PORT || 3000;
