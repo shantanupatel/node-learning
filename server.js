@@ -49,11 +49,18 @@ app.get('/json', function(req, res) {
   }
 }); */
 
-app.get('/now', function(req, res, next) {
+// mounted middleware example
+function dateMiddleware(req, res, next) {
   req.time = new Date().toString();
   next();
-}, function(req, res) {
+}
+
+app.get('/now', dateMiddleware, function(req, res) {
   res.json({time: req.time})
+})
+
+app.get('/:word/echo', function(req, res) {
+  res.json({echo: req.params.word});
 })
 
 var port = process.env.PORT || 3000;
