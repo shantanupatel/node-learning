@@ -32,10 +32,14 @@ app.route('/_api/package.json')
       res.type('txt').send(data.toString());
     });
   });
-  
+
 app.route('/')
     .get(function(req, res) {
-		  res.sendFile(process.cwd() + '/views/index.html');
+      // let absolutePath = __dirname;
+
+		  // res.sendFile(process.cwd() + '/views/index.html');
+		  // res.sendFile(absolutePath + '/views/index.html');
+      res.send("Response String");
     })
 
 // Respond not found to all the wrong routes
