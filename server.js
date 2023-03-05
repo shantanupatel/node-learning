@@ -7,6 +7,7 @@ var bGround = require('fcc-express-bground');
 var myApp = require('./myApp');
 var express = require('express');
 var app = express();
+var env = require('dotenv');
 
 if (!process.env.DISABLE_XORIGIN) {
   app.use(function(req, res, next) {
@@ -21,11 +22,23 @@ if (!process.env.DISABLE_XORIGIN) {
   });
 }
 
+// serve static files from a folder when the path contains /public
+// express.static is a middleware function
+app.use('/public', express.static(__dirname + '/public'));
+
 app.get('/', function(req, res) {
   let absolutePath = __dirname + '/views/index.html';
   // res.send("Hello Express");
   res.sendFile(absolutePath);
-})
+});
+
+app.get('/json', function(req, res) {
+  if(process.env.MESSAGE_STYLE == 'uppercase') {
+    res.json({"message": "HELLO JSON"});
+  } else {
+    res.json({"message": "Hello json"});
+  }
+});
 
 var port = process.env.PORT || 3000;
 bGround.setupBackgroundApp(app, myApp, __dirname).listen(port, function(){
