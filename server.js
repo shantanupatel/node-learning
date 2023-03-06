@@ -24,6 +24,7 @@ if (!process.env.DISABLE_XORIGIN) {
 }
 
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 // serve static files from a folder when the path contains /public
 // express.static is a middleware function
@@ -52,11 +53,13 @@ app.get('/json', function(req, res) {
   }
 }); */
 
-app.get('/now', function(req, res, next) {
+app.get("/now", (req, res, next) => {
   req.time = new Date().toString();
   next();
-}, function(req, res) {
-  res.json({time: req.time});
+}, (req, res) => {
+  res.send({
+    time: req.time
+  });
 });
 
 app.get('/:word/echo', function(req, res) {
