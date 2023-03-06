@@ -8,6 +8,7 @@ var myApp = require('./myApp');
 var express = require('express');
 var app = express();
 var env = require('dotenv');
+const bodyParser = require('body-parser');
 
 if (!process.env.DISABLE_XORIGIN) {
   app.use(function(req, res, next) {
@@ -21,6 +22,8 @@ if (!process.env.DISABLE_XORIGIN) {
     next();
   });
 }
+
+app.use(bodyParser.urlencoded({extended: false}));
 
 // serve static files from a folder when the path contains /public
 // express.static is a middleware function
@@ -55,12 +58,20 @@ function dateMiddleware(req, res, next) {
   next();
 }
 
-app.get('/now', dateMiddleware, function(req, res) {
+app.get('/now', function(req, res, next) {
+  req.time = new Date().toString();
+  console.log(req.time);
+  next();
+}, function(req, res) {
   res.json({time: req.time})
 })
 
 app.get('/:word/echo', function(req, res) {
   res.json({echo: req.params.word});
+})
+
+app.get('/name', function(req, res) {
+  res.json({name: req.query.first + ' ' + req.query.last});
 })
 
 var port = process.env.PORT || 3000;
