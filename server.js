@@ -58,8 +58,12 @@ function dateMiddleware(req, res, next) {
   next();
 }
 
+function getDateSync() {
+  return new Date().toString();
+}
+
 app.get('/now', function(req, res, next) {
-  req.time = new Date().toString();
+  req.time = getDateSync();
   console.log(req.time);
   next();
 }, function(req, res) {
@@ -73,6 +77,19 @@ app.get('/:word/echo', function(req, res) {
 app.get('/name', function(req, res) {
   res.json({name: req.query.first + ' ' + req.query.last});
 })
+
+app.post('/name', function(req, res) {
+  // console.log(req.query);
+  // console.log(req.body);
+  res.json({name: req.query.first + ' ' + req.query.last});
+})
+
+// app.route('/name').get(function(req, res) {
+//   res.json({name: req.query.first + ' ' + req.query.last});
+// }).post(function(req, res) {
+//   console.log(req.body);
+//   res.json({name: req.body.first + ' ' + req.body.last});
+// })
 
 var port = process.env.PORT || 3000;
 bGround.setupBackgroundApp(app, myApp, __dirname).listen(port, function(){
