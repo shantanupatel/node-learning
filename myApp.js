@@ -34,12 +34,15 @@ app.get('/json', function(req, res) {
   }
 }); */
  
-const getDate = (req, res, next) => {
+// const getDate = (req, res, next) => {
+//   req.time = new Date().toString();
+//   next();
+// }
+
+app.get('/now', (req, res, next) => {
   req.time = new Date().toString();
   next();
-}
-
-app.get('/now', getDate, (req, res) => {
+}, (req, res) => {
   res.json({time: req.time});
 })
 
