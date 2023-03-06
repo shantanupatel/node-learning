@@ -50,17 +50,6 @@ app.get('/json', function(req, res) {
   }
 }); */
 
-const middleware = (req, res, next) => {
-  req.time = new Date().toString();
-  next();
-};
-
-app.get("/now", middleware, (req, res) => {
-  res.send({
-    time: req.time
-  });
-});
-
 app.get('/:word/echo', function(req, res) {
   res.json({echo: req.params.word});
 })
@@ -79,8 +68,8 @@ app.use(bodyParser.json());
 app.route('/name').get(function(req, res) {
   res.json({name: req.query.first + ' ' + req.query.last});
 }).post(function(req, res) {
-  console.log(req);
-  res.json({name: req.query.first + ' ' + req.query.last});
+  const {first, last} = req.body;
+  res.json({name: first + ' ' + last});
 });
 
 var port = process.env.PORT || 3000;
