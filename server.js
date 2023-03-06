@@ -52,44 +52,31 @@ app.get('/json', function(req, res) {
   }
 }); */
 
-// mounted middleware example
-function dateMiddleware(req, res, next) {
+app.get('/now', function(req, res, next) {
   req.time = new Date().toString();
   next();
-}
-
-function getDateSync() {
-  return new Date().toString();
-}
-
-app.get('/now', function(req, res, next) {
-  req.time = getDateSync();
-  console.log(req.time);
-  next();
 }, function(req, res) {
-  res.json({time: req.time})
-})
+  res.json({time: req.time});
+});
 
 app.get('/:word/echo', function(req, res) {
   res.json({echo: req.params.word});
 })
 
-app.get('/name', function(req, res) {
-  res.json({name: req.query.first + ' ' + req.query.last});
-})
-
-app.post('/name', function(req, res) {
-  // console.log(req.query);
-  // console.log(req.body);
-  res.json({name: req.query.first + ' ' + req.query.last});
-})
-
-// app.route('/name').get(function(req, res) {
+// app.get('/name', function(req, res) {
 //   res.json({name: req.query.first + ' ' + req.query.last});
-// }).post(function(req, res) {
-//   console.log(req.body);
-//   res.json({name: req.body.first + ' ' + req.body.last});
 // })
+
+// app.post('/name', function(req, res) {
+//   res.json({name: req.query.first + ' ' + req.query.last});
+// }).use(bodyParser)
+
+app.route('/name').get(function(req, res) {
+  res.json({name: req.query.first + ' ' + req.query.last});
+}).post(function(req, res) {
+  console.log(req);
+  res.json({name: req.query.first + ' ' + req.query.last});
+});
 
 var port = process.env.PORT || 3000;
 bGround.setupBackgroundApp(app, myApp, __dirname).listen(port, function(){
