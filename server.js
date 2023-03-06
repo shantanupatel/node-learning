@@ -23,9 +23,6 @@ if (!process.env.DISABLE_XORIGIN) {
   });
 }
 
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
-
 // serve static files from a folder when the path contains /public
 // express.static is a middleware function
 app.use('/public', express.static(__dirname + '/public'));
@@ -53,10 +50,12 @@ app.get('/json', function(req, res) {
   }
 }); */
 
-app.get("/now", (req, res, next) => {
+const middleware = (req, res, next) => {
   req.time = new Date().toString();
   next();
-}, (req, res) => {
+};
+
+app.get("/now", middleware, (req, res) => {
   res.send({
     time: req.time
   });
@@ -73,6 +72,9 @@ app.get('/:word/echo', function(req, res) {
 // app.post('/name', function(req, res) {
 //   res.json({name: req.query.first + ' ' + req.query.last});
 // }).use(bodyParser)
+
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 app.route('/name').get(function(req, res) {
   res.json({name: req.query.first + ' ' + req.query.last});
