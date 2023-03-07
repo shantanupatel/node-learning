@@ -5,7 +5,8 @@
 		"cookie-parser": "^1.4.3",
 		"dotenv": "^16.0.1",
 		"express": "^4.14.0",
-		"fcc-express-bground": "https://github.com/freeCodeCamp/fcc-express-bground-pkg.git"
+		"fcc-express-bground": "https://github.com/freeCodeCamp/fcc-express-bground-pkg.git",
+		"mongoose": "^5.11.15"
 	},
 	"main": "server.js",
 	"scripts": {
@@ -17,7 +18,12 @@
 	},
 	"author": "Shantanu Patel",
 	"description": "Awesome project to learning working of node.js",
-	"keywords": ["freecodecamp", "node.js", "awesome", "learning"],
+	"keywords": [
+		"freecodecamp",
+		"node.js",
+		"awesome",
+		"learning"
+	],
 	"license": "MIT",
 	"version": "1.0.0"
 }
