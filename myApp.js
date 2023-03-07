@@ -1,8 +1,8 @@
-require('dotenv').config();
+// require('dotenv').config();
 let express = require('express');
 let app = express();
 let bodyParser = require('body-parser');
-var env = require('dotenv');
+// var env = require('dotenv');
 
 app.use('', function(req, res, next){
   console.log(req.method + ' ' + req.path + ' - ' + req.ip);
@@ -26,24 +26,22 @@ app.get('/json', function(req, res) {
   res.json({"message" : "Hello json"});
 });
 
-/* app.get('/json', function(req, res) {
+app.get('/json', function(req, res) {
   if(process.env.MESSAGE_STYLE == 'uppercase') {
     res.json({"message" : "HELLO JSON"});
   } else {
     res.json({"message" : "Hello json"});
   }
-}); */
+});
  
-// const getDate = (req, res, next) => {
-//   req.time = new Date().toString();
-//   next();
-// }
-
-app.get('/now', (req, res, next) => {
+const getDate = (req, res, next) => {
   req.time = new Date().toString();
   next();
-}, (req, res) => {
-  res.json({time: req.time});
+}
+
+app.get('/now', getDate, (req, res) => {
+  console.log(req)
+  res.send({time: req.time});
 })
 
 app.get('/:word/echo', function(req, res) {
@@ -75,3 +73,5 @@ app.post("/name", function(req, res) {
 });
 
 console.log("Hello World");
+
+module.exports = app;
